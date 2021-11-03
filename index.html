@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>TETR.IO Attack Calculator</title>
+
+        <link rel="stylesheet" href="style.css">
+
+        <!-- <script type="text/javascript">
+            var selected;
+        </script> -->
+    
+    </head>
+    <body>
+
+    <h1>TETR.IO Attack Calculator</h1>
+
+        <label for="attack">Attack Type:</label>
+
+        <select name="attack" id="attack">
+
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="triple">Triple</option>
+            <option value="quad">Quad</option>
+            <option value="tsms">T-Spin Mini Single</option>
+            <option value="tss">T-Spin Single</option>
+            <option value="tsmd">T-Spin Mini Double</option>
+            <option value="tsd">T-Spin Double</option>
+            <option value="tst">T-Spin Triple</option>
+
+        </select>
+
+        <button type="button" id="button_add">+</button>
+
+        <button type="button" id="button_clear">Clear List</button>
+
+        <!-- <h2 id="selected"></h2> -->
+
+        <br>
+
+        <table id = AttackList>
+
+        </table>
+
+        <br>
+
+        <button type="button" id="button_image">Toggle attack table</button>
+
+        <img src="table.png" alt='Attack table' width="50%" height="50%" id="chart" style="display: none; ">
+
+        <script src="script.js"> </script>
+
+    </body>
+
+</html>
