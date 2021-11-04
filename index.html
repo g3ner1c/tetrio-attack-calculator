@@ -2,6 +2,8 @@
 <html>
     <head>
 
+        <link rel="icon" href="https://branding.osk.sh/tetrio-color.png">
+
         <title>TETR.IO Attack Calculator</title>
 
         <link rel="stylesheet" href="style.css">
@@ -13,7 +15,17 @@
     </head>
     <body>
 
-    <h1>TETR.IO Attack Calculator</h1>
+        <h1>TETR.IO Attack Calculator</h1>
+
+        <h4>
+
+            <a href="https://github.com/awesomeplaya211/tetrio-attack-calculator" target="_blank">GitHub</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://github.com/awesomeplaya211/tetrio-attack-calculator#readme" target="_blank">README</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://github.com/awesomeplaya211/tetrio-attack-calculator/issues/new/choose" target="_blank">Suggestion/Bug?</a>
+
+        </h4>
 
         <label for="attack">Attack Type:</label>
 
@@ -33,13 +45,17 @@
 
         <button type="button" id="button_add">+</button>
 
-        <button type="button" id="button_clear">Clear List</button>
+        <button type="button" id="toggle_combo"></button>
+
+        <button type="button" id="toggle_B2B"></button>
+
+        <button type="button" id="button_clear">Clear</button>
 
         <!-- <h2 id="selected"></h2> -->
 
         <br>
 
-        <table id = AttackList>
+        <table id = "AttackList">
 
         </table>
 
@@ -47,7 +63,7 @@
 
         <button type="button" id="button_image">Toggle attack table</button>
 
-        <img src="table.png" alt='Attack table' width="50%" height="50%" id="chart" style="display: none; ">
+        <img src="table.png" alt="Attack table" width="50%" height="50%" id="chart" style="display: none; ">
 
         <script src="script.js"> </script>
 
