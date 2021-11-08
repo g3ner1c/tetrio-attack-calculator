@@ -57,9 +57,40 @@ function updateFoot() {
 }
 
 
+function updateTable(){
+    
+    attackHTML = "";
+
+    total_lines = 0;
+    
+    for (var attack of attack_list) {
+
+        attackHTML += (`<tr id=${attack["id"]}>`+
+        "<td>" +                 attack["num"] +
+        "</td> <td>" +           attack["name"] +
+        "</td> <td> <b>" +       attack["lines_sent"] +
+        "</b> </td> <td>" +      attack["combo"] +
+        "</td> <td>" +           attack["B2B_count"] +
+        "</td> <td>" +           attack["B2B_level"] +
+        "</td>" + 
+        "</tr>");
+        
+        total_lines += attack["lines_sent"];
+
+    }
+
+    console.log(attack)
+
+    document.getElementById("AttackList").innerHTML = attackHTML;
+
+    updateFoot();
+
+}
+
+
 document.getElementById("button_add").onclick = function() {
     
-    attack = document.getElementById("attack").value;
+    attack_selected = document.getElementById("attack_selected").value;
 
     attack_count++;
 
@@ -73,7 +104,7 @@ document.getElementById("button_add").onclick = function() {
 
     }
 
-    if (attack_dict[attack][2] === true && B2Bing) {
+    if (attack_dict[attack_selected][2] === true && B2Bing) {
 
         B2B_count++;
 
@@ -99,7 +130,7 @@ document.getElementById("button_add").onclick = function() {
 
     } else {
 
-        if (attack_dict[attack][2]) {
+        if (attack_dict[attack_selected][2]) {
             B2B_count = 0;
         } else {
             B2B_count = -1;            
@@ -113,42 +144,38 @@ document.getElementById("button_add").onclick = function() {
         
         "id":`attack${attack_count}`,
         "num": attack_count,
-        "attack_id": attack,
-        "name": attack_dict[attack][0],
+        "attack_id": attack_selected,
+        "name": attack_dict[attack_selected][0],
         "combo": combo_level,
         "B2B_count": B2B_count,
         "B2B_level": B2B_level,
-        "lines_sent": attackFunc(combo_level, attack_dict[attack][1], B2B_level),
+        "lines_sent": attackFunc(combo_level, attack_dict[attack_selected][1], B2B_level),
         "PC": false
     
     });
 
-    console.log(attack);
+    console.log(attack_selected);
     console.log(attack_list);
-    
-    // if (attack_list.length === 1) {
-        
-    //     attackHTML = "<tr> <th>#</th> <th>Attack Type</th> <th>Lines Sent</th> <th>Combo</th> <th>B2B Count</th> <th>B2B Level</th> </tr>";
 
-    // }
+    updateTable()
 
-    attackHTML += (`<div id=${attack_list[attack_count - 1]["id"]}>`+
-                  "<tr> <td>" + attack_list[attack_count - 1]["num"] +
-                  "</td> <td>" + attack_list[attack_count - 1]["name"] +
-                  "</td> <td> <b>" + attack_list[attack_count - 1]["lines_sent"] +
-                  "</b> </td> <td>" + attack_list[attack_count - 1]["combo"] +
-                  "</td> <td>" + attack_list[attack_count - 1]["B2B_count"] +
-                  "</td> <td>" + attack_list[attack_count - 1]["B2B_level"] +
-                  "</td> </tr>" +
-                  "</div>");
+    // attackHTML += (`<tr id=${attack_list[attack_count - 1]["id"]}>`+
+    //               "<td>" + attack_list[attack_count - 1]["num"] +
+    //               "</td> <td>" + attack_list[attack_count - 1]["name"] +
+    //               "</td> <td> <b>" + attack_list[attack_count - 1]["lines_sent"] +
+    //               "</b> </td> <td>" + attack_list[attack_count - 1]["combo"] +
+    //               "</td> <td>" + attack_list[attack_count - 1]["B2B_count"] +
+    //               "</td> <td>" + attack_list[attack_count - 1]["B2B_level"] +
+    //               "</td>" + 
+    //               "</tr>");
 
-    // console.log(attackHTML);
+    // // console.log(attackHTML);
 
-    total_lines += attack_list[attack_count - 1]["lines_sent"];
+    // total_lines += attack_list[attack_count - 1]["lines_sent"];
 
-    document.getElementById("AttackList").innerHTML = attackHTML;
+    // document.getElementById("AttackList").innerHTML = attackHTML;
 
-    updateFoot();
+    // updateFoot();
 
 }
 
@@ -206,13 +233,15 @@ document.getElementById("button_clear").onclick = function() {
 
     attack_count = 0;
 
-    total_lines = 0;
+    updateTable();
 
-    attackHTML = "";
+    // total_lines = 0;
 
-    document.getElementById("AttackList").innerHTML = attackHTML;
+    // attackHTML = "";
 
-    updateFoot();
+    // document.getElementById("AttackList").innerHTML = attackHTML;
+
+    // updateFoot();
 }
 
 
