@@ -12,7 +12,7 @@ var B2B_level = 0;
 var attack_count = 0;
 var total_lines = 0;
 
-var attackHTML = "<tr> <th>#</th> <th>Attack Type</th> <th>Lines Sent</th> <th>Combo</th> <th>B2B Count</th> <th>B2B Level</th> </tr>";
+var attackHTML = "";
 document.getElementById("AttackList").innerHTML = attackHTML;
 
 var attack_dict = {
@@ -45,6 +45,15 @@ function attackFunc(combo_level, base_attack, B2B_level) {
 
     }
 
+}
+
+
+function updateFoot() {
+
+    document.getElementById("AttackFoot").innerHTML = ("<tr> <td></td>"+
+    "<td> <b> <i>Total:</i></b> </td>" +
+    "<td> <b> <i>" + total_lines + "</i> </b> </td> </tr>");
+    
 }
 
 
@@ -102,40 +111,44 @@ document.getElementById("button_add").onclick = function() {
 
     attack_list.push({
         
+        "id":`attack${attack_count}`,
         "num": attack_count,
-        "id": attack,
+        "attack_id": attack,
         "name": attack_dict[attack][0],
         "combo": combo_level,
         "B2B_count": B2B_count,
         "B2B_level": B2B_level,
-        "lines_sent": attackFunc(combo_level, attack_dict[attack][1], B2B_level)
+        "lines_sent": attackFunc(combo_level, attack_dict[attack][1], B2B_level),
+        "PC": false
     
     });
 
     console.log(attack);
     console.log(attack_list);
     
-    if (attack_list.length === 1) {
+    // if (attack_list.length === 1) {
         
-        attackHTML = "<tr> <th>#</th> <th>Attack Type</th> <th>Lines Sent</th> <th>Combo</th> <th>B2B Count</th> <th>B2B Level</th> </tr>";
+    //     attackHTML = "<tr> <th>#</th> <th>Attack Type</th> <th>Lines Sent</th> <th>Combo</th> <th>B2B Count</th> <th>B2B Level</th> </tr>";
 
-    }
+    // }
 
-    attackHTML += ("<tr> <td>" + attack_list[attack_count - 1]["num"] +
+    attackHTML += (`<div id=${attack_list[attack_count - 1]["id"]}>`+
+                  "<tr> <td>" + attack_list[attack_count - 1]["num"] +
                   "</td> <td>" + attack_list[attack_count - 1]["name"] +
-                  "</td> <td>" + attack_list[attack_count - 1]["lines_sent"] +
-                  "</td> <td>" + attack_list[attack_count - 1]["combo"] +
+                  "</td> <td> <b>" + attack_list[attack_count - 1]["lines_sent"] +
+                  "</b> </td> <td>" + attack_list[attack_count - 1]["combo"] +
                   "</td> <td>" + attack_list[attack_count - 1]["B2B_count"] +
                   "</td> <td>" + attack_list[attack_count - 1]["B2B_level"] +
-                  "</td> </tr>");
+                  "</td> </tr>" +
+                  "</div>");
 
     // console.log(attackHTML);
 
     total_lines += attack_list[attack_count - 1]["lines_sent"];
 
-    document.getElementById("AttackList").innerHTML = attackHTML +
-              "<tr> <td></td> <td> <b>Total:</b> </td> <td> <b>" +
-              total_lines +"</b> </td> </tr>";
+    document.getElementById("AttackList").innerHTML = attackHTML;
+
+    updateFoot();
 
 }
 
@@ -195,10 +208,11 @@ document.getElementById("button_clear").onclick = function() {
 
     total_lines = 0;
 
-    attackHTML = "<tr> <th>#</th> <th>Attack Type</th> <th>Lines Sent</th> </tr>";
+    attackHTML = "";
 
     document.getElementById("AttackList").innerHTML = attackHTML;
 
+    updateFoot();
 }
 
 
