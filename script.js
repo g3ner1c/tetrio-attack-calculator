@@ -2,9 +2,9 @@ var attack;
 var attack_list = [];
 
 var comboing = true;
-document.getElementById("toggle_combo").innerText = "Comboing On"
+document.getElementById("toggle_combo").innerHTML = "Comboing <b> On </b>";
 var B2Bing = true
-document.getElementById("toggle_B2B").innerText = "B2B On"
+document.getElementById("toggle_B2B").innerHTML = "B2B <b> On </b>";
 
 var combo_level = -1;
 var B2B_count = -1;
@@ -114,7 +114,7 @@ document.getElementById("button_add").onclick = function() {
 
     console.log(attack);
     console.log(attack_list);
-
+    
     if (attack_list.length === 1) {
         
         attackHTML = "<tr> <th>#</th> <th>Attack Type</th> <th>Lines Sent</th> <th>Combo</th> <th>B2B Count</th> <th>B2B Level</th> </tr>";
@@ -133,7 +133,9 @@ document.getElementById("button_add").onclick = function() {
 
     total_lines += attack_list[attack_count - 1]["lines_sent"];
 
-    document.getElementById("AttackList").innerHTML = attackHTML + "<tr> <td></td> <td> <b>Total:</b> </td> <td> <b>" + total_lines + "</b> </td> </tr>";
+    document.getElementById("AttackList").innerHTML = attackHTML +
+              "<tr> <td></td> <td> <b>Total:</b> </td> <td> <b>" +
+              total_lines +"</b> </td> </tr>";
 
 }
 
@@ -145,13 +147,13 @@ document.getElementById("toggle_combo").onclick = function() {
         comboing = false;
         combo_level = 0;
 
-        document.getElementById("toggle_combo").innerText = "Comboing Off"
+        document.getElementById("toggle_combo").innerHTML = "Comboing <b> Off </b>";
 
     } else {
 
         comboing = true;
 
-        document.getElementById("toggle_combo").innerText = "Comboing On"
+        document.getElementById("toggle_combo").innerHTML = "Comboing <b> On </b>"
 
     }
 
@@ -166,13 +168,13 @@ document.getElementById("toggle_B2B").onclick = function() {
         B2B_count = -1;
         B2B_level = 0;
 
-        document.getElementById("toggle_B2B").innerText = "B2B Off"
+        document.getElementById("toggle_B2B").innerHTML = "B2B <b> Off </b>"
 
     } else {
 
         B2Bing = true;
 
-        document.getElementById("toggle_B2B").innerText = "B2B On"
+        document.getElementById("toggle_B2B").innerHTML = "B2B <b> On </b>"
 
     }
 
