@@ -72,16 +72,26 @@ function updateTable(){
         "</b> </td> <td>" +      attack["combo"] +      // Combo
         "</td> <td>" +           attack["B2B_count"] +  // B2B Count
         "</td> <td>" +           attack["B2B_level"] +  // B2B Level
+        "</td>");
 
-        "</td> <td>" + `<input type="checkbox" id="PC${attack["num"]}" name="PC${attack["num"]}" onclick="PerfectClear(${attack["num"]})"`);
+        if (attack["attack_id"].startsWith('ts')) {
 
-        if (attack["PC"] == true) {
-            attackHTML += "checked>";
+            attackHTML += "</tr>";
+
         } else {
-            attackHTML += ">";
-        }
 
-        attackHTML += "</td>" + "</tr>";
+            attackHTML += ("<td>" +
+            `<input type="checkbox" id="PC${attack["num"]}" name="PC${attack["num"]}" onclick="PerfectClear(${attack["num"]})"`);            
+
+            if (attack["PC"] == true) {
+                attackHTML += "checked>";
+            } else {
+                attackHTML += ">";
+            }
+
+            attackHTML += "</td>" + "</tr>";
+
+        }
         
         total_lines += attack["lines_sent"] + Number(attack["PC"])*10;
 
