@@ -58,7 +58,7 @@ function updateFoot() {
 
 
 function updateTable(){
-    
+
     attackHTML = "";
 
     total_lines = 0;
@@ -66,16 +66,24 @@ function updateTable(){
     for (var attack of attack_list) {
 
         attackHTML += (`<tr id=${attack["id"]}>`+
-        "<td>" +                 attack["num"] +
-        "</td> <td>" +           attack["name"] +
-        "</td> <td> <b>" +       attack["lines_sent"] +
-        "</b> </td> <td>" +      attack["combo"] +
-        "</td> <td>" +           attack["B2B_count"] +
-        "</td> <td>" +           attack["B2B_level"] +
-        "</td>" + 
-        "</tr>");
+        "<td>" +                 attack["num"] +        // #
+        "</td> <td>" +           attack["name"] +       // Attack type
+        "</td> <td> <b>" +      (attack["lines_sent"] + Number(attack["PC"])*10) + // Lines Sent
+        "</b> </td> <td>" +      attack["combo"] +      // Combo
+        "</td> <td>" +           attack["B2B_count"] +  // B2B Count
+        "</td> <td>" +           attack["B2B_level"] +  // B2B Level
+
+        "</td> <td>" + `<input type="checkbox" id="PC${attack["num"]}" name="PC${attack["num"]}" onclick="PerfectClear(${attack["num"]})"`);
+
+        if (attack["PC"] == true) {
+            attackHTML += "checked>";
+        } else {
+            attackHTML += ">";
+        }
+
+        attackHTML += "</td>" + "</tr>";
         
-        total_lines += attack["lines_sent"];
+        total_lines += attack["lines_sent"] + Number(attack["PC"])*10;
 
     }
 
@@ -84,6 +92,25 @@ function updateTable(){
     document.getElementById("AttackList").innerHTML = attackHTML;
 
     updateFoot();
+
+}
+
+
+function PerfectClear(pc_num) {
+
+    console.log(document.getElementById(`PC${pc_num}`).checked);
+
+    if (document.getElementById(`PC${pc_num}`).checked == true) {
+
+        attack_list[pc_num - 1]["PC"] = true;
+
+    } else {
+
+        attack_list[pc_num - 1]["PC"] = false;
+
+    }
+
+    updateTable();
 
 }
 
