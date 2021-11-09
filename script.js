@@ -1,4 +1,4 @@
-var attack;
+var attack_selected;
 var attack_list = [];
 
 var comboing = true;
@@ -8,7 +8,6 @@ document.getElementById("toggle_B2B").innerHTML = "B2B <b> On </b>";
 
 var combo_level = -1;
 var B2B_count = -1;
-var B2B_level = 0;
 var attack_count = 0;
 var total_lines = 0;
 
@@ -48,6 +47,31 @@ function attackFunc(combo_level, base_attack, B2B_level) {
 }
 
 
+function b2bCountToLevel(B2B_count) {
+
+    if (B2B_count <= 0) {
+        return 0;
+    } else if (B2B_count <= 2) {
+        return 1;
+    } else if (B2B_count <= 7) {
+        return 2;
+    } else if (B2B_count <= 23) {
+        return 3;
+    } else if (B2B_count <= 66) {
+        return 4;
+    } else if (B2B_count <= 184) {
+        return 5;
+    } else if (B2B_count <= 503) {
+        return 6;
+    } else if (B2B_count <= 1369) {
+        return 7;
+    } else {
+        return 8;
+    }
+
+}
+
+
 function updateFoot() {
 
     document.getElementById("AttackFoot").innerHTML = ("<tr> <td></td>"+
@@ -67,14 +91,14 @@ function updateTable(){
 
         attackHTML += (`<tr id=${attack["id"]}>`+
         "<td>" +                 attack["num"] +        // #
-        "</td> <td>" +           attack["name"] +       // Attack type
+        "</td> <td>" +           attack_dict[attack["attack_id"]][0] + // Attack type
         "</td> <td> <b>" +      (attack["lines_sent"] + Number(attack["PC"])*10) + // Lines Sent
         "</b> </td> <td>" +      attack["combo"] +      // Combo
         "</td> <td>" +           attack["B2B_count"] +  // B2B Count
-        "</td> <td>" +           attack["B2B_level"] +  // B2B Level
+        "</td> <td>" +           b2bCountToLevel(attack["B2B_count"]) +  // B2B Level
         "</td>");
 
-        if (attack["attack_id"].startsWith('ts')) {
+        if (attack["attack_id"].startsWith('ts')) { // t-spins cant be pcs
 
             attackHTML += "</tr>";
 
@@ -83,7 +107,7 @@ function updateTable(){
             attackHTML += ("<td>" +
             `<input type="checkbox" id="PC${attack["num"]}" name="PC${attack["num"]}" onclick="PerfectClear(${attack["num"]})"`);            
 
-            if (attack["PC"] == true) {
+            if (attack["PC"]) {
                 attackHTML += "checked>";
             } else {
                 attackHTML += ">";
@@ -92,7 +116,7 @@ function updateTable(){
             attackHTML += "</td>" + "</tr>";
 
         }
-        
+
         total_lines += attack["lines_sent"] + Number(attack["PC"])*10;
 
     }
@@ -103,6 +127,11 @@ function updateTable(){
 
     updateFoot();
 
+    // document.getElementById("export").innerText = btoa(JSON.stringify(attack_list))
+
+    // document.getElementById("export_json").innerText = JSON.stringify(attack_list)
+
+
 }
 
 
@@ -110,7 +139,7 @@ function PerfectClear(pc_num) {
 
     console.log(document.getElementById(`PC${pc_num}`).checked);
 
-    if (document.getElementById(`PC${pc_num}`).checked == true) {
+    if (document.getElementById(`PC${pc_num}`).checked) {
 
         attack_list[pc_num - 1]["PC"] = true;
 
@@ -141,52 +170,29 @@ document.getElementById("button_add").onclick = function() {
 
     }
 
-    if (attack_dict[attack_selected][2] === true && B2Bing) {
+    if (attack_dict[attack_selected][2] && B2Bing) { // if attack is B2B-able and B2B is turned on
 
         B2B_count++;
 
-        if (B2B_count <= 0) {
-            B2B_level = 0;
-        } else if (B2B_count <= 2) {
-            B2B_level = 1;
-        } else if (B2B_count <= 7) {
-            B2B_level = 2;
-        } else if (B2B_count <= 23) {
-            B2B_level = 3;
-        } else if (B2B_count <= 66) {
-            B2B_level = 4;
-        } else if (B2B_count <= 184) {
-            B2B_level = 5;
-        } else if (B2B_count <= 503) {
-            B2B_level = 6;
-        } else if (B2B_count <= 1369) {
-            B2B_level = 7;
-        } else {
-            B2B_level = 8;
-        }
+    } else if (attack_dict[attack_selected][2]) { // if attack is B2B-able and B2B is turned off
 
-    } else {
+        B2B_count = 0;
 
-        if (attack_dict[attack_selected][2]) {
-            B2B_count = 0;
-        } else {
-            B2B_count = -1;            
-        }
+    } else { // attack is not B2B-able
 
-        B2B_level = 0;
+        B2B_count = -1;
 
     }
+    
 
     attack_list.push({
         
         "id":`attack${attack_count}`,
         "num": attack_count,
         "attack_id": attack_selected,
-        "name": attack_dict[attack_selected][0],
         "combo": combo_level,
         "B2B_count": B2B_count,
-        "B2B_level": B2B_level,
-        "lines_sent": attackFunc(combo_level, attack_dict[attack_selected][1], B2B_level),
+        "lines_sent": attackFunc(combo_level, attack_dict[attack_selected][1], b2bCountToLevel(B2B_count)),
         "PC": false
     
     });
@@ -195,24 +201,6 @@ document.getElementById("button_add").onclick = function() {
     console.log(attack_list);
 
     updateTable()
-
-    // attackHTML += (`<tr id=${attack_list[attack_count - 1]["id"]}>`+
-    //               "<td>" + attack_list[attack_count - 1]["num"] +
-    //               "</td> <td>" + attack_list[attack_count - 1]["name"] +
-    //               "</td> <td> <b>" + attack_list[attack_count - 1]["lines_sent"] +
-    //               "</b> </td> <td>" + attack_list[attack_count - 1]["combo"] +
-    //               "</td> <td>" + attack_list[attack_count - 1]["B2B_count"] +
-    //               "</td> <td>" + attack_list[attack_count - 1]["B2B_level"] +
-    //               "</td>" + 
-    //               "</tr>");
-
-    // // console.log(attackHTML);
-
-    // total_lines += attack_list[attack_count - 1]["lines_sent"];
-
-    // document.getElementById("AttackList").innerHTML = attackHTML;
-
-    // updateFoot();
 
 }
 
@@ -243,7 +231,6 @@ document.getElementById("toggle_B2B").onclick = function() {
 
         B2Bing = false;
         B2B_count = -1;
-        B2B_level = 0;
 
         document.getElementById("toggle_B2B").innerHTML = "B2B <b> Off </b>"
 
@@ -266,19 +253,10 @@ document.getElementById("button_clear").onclick = function() {
 
     B2B_count = -1;
 
-    B2B_level = 0;
-
     attack_count = 0;
 
     updateTable();
 
-    // total_lines = 0;
-
-    // attackHTML = "";
-
-    // document.getElementById("AttackList").innerHTML = attackHTML;
-
-    // updateFoot();
 }
 
 
@@ -297,3 +275,19 @@ document.getElementById("button_image").onclick = function() {
     }
      
 }
+
+// document.getElementById("button_export").onclick = function() {
+
+//     var export_string = document.getElementById("export");
+
+//     if (export_string.style.display === "none") {
+
+//       export_string.style.display = "block";
+
+//     } else {
+
+//       export_string.style.display = "none";
+
+//     }
+     
+// }
