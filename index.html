@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	
 	<link rel="icon" href="https://branding.osk.sh/tetrio-color.png">
 
@@ -18,6 +18,7 @@
 		</script> -->
 	
 	</head>
+
 	<body>
 
 		<h1>TETR.IO Attack Calculator</h1>
@@ -33,6 +34,48 @@
 			<a href="https://github.com/g3ner1c/tetrio-attack-calculator/issues/new/choose" target="_blank">Suggestion/Bug?</a>
 
 		</h4>
+
+		<button type="button" id="buttonShortcuts" onclick="buttonShortcuts()">Keyboard Shortcuts</button>
+
+		<table id="keyboardShortcuts">
+
+			<tbody>
+
+				<tr>
+					<td>K</td>
+					<td>Show Shortcuts</td>
+				</tr>
+
+				<tr>
+					<td>9</td>
+					<td>Toggle Combo</td>
+				</tr>
+
+				<tr>
+					<td>0</td>
+					<td>Toggle B2B</td>
+				</tr>
+
+				<tr>
+					<td>P</td>
+					<td>Toggle PC</td>
+				</tr>
+
+				<tr>
+					<td>←</td>
+					<td>Clear</td>
+				</tr>
+
+				<tr>
+					<td>⏎</td>
+					<td>Enter</td>
+				</tr>
+
+			</tbody>
+
+		</table>
+
+		<br>
 
 		<label for="attack_selected">Attack Type:</label>
 
@@ -50,17 +93,15 @@
 
 		</select>
 
-		<button type="button" id="button_add">+</button>
+		<button type="button" id="button_add" onclick="buttonAdd()">+</button>
 
-		<button type="button" id="toggle_combo"></button>
+		<button type="button" id="toggle_combo" onclick="toggleCombo()"></button>
 
-		<button type="button" id="toggle_B2B"></button>
+		<button type="button" id="toggle_B2B" onclick="toggleB2B()"></button>
 
-		<button type="button" id="button_clear">Clear</button>
+		<button type="button" id="button_clear" onclick="buttonClear()">Clear</button>
 
 		<!-- <button type="button" id="button_import">Import List</button> -->
-
-		<h2 id="selected"></h2>
 
 		<br>
 
@@ -93,19 +134,19 @@
 
 		</table>
 
-		<br>
-<!-- 
-		<button type="button" id="button_export">Export list</button> -->
+		<!-- <br>
+
+		<button type="button" id="button_export">Export list</button>
 
 		<button type="button" id="button_image">Toggle attack table</button>
 
-		<!-- <textarea id="export" name="export" rows="4" cols="50" style="display: none;"></textarea>
+		<textarea id="export" name="export" rows="4" cols="50" style="display: none;"></textarea>
 
-		<textarea id="export_json" name="export_json" rows="4" cols="50" style="display: block;"></textarea> -->
+		<textarea id="export_json" name="export_json" rows="4" cols="50" style="display: block;"></textarea>
 
-		<img src="table.png" alt="Attack table" width="50%" height="50%" id="chart" style="display: none;">
+		<img src="table.png" alt="Attack table" width="50%" height="50%" id="chart" style="display: none;"> -->
 
-		<script src="script.js"> </script>
+		<script src="script.js"></script>
 
 	</body>
 

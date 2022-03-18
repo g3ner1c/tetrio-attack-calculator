@@ -29,3 +29,8 @@ th, td {
 	margin-right: auto;
 	padding: 5px;
 }
+
+#keyboardShortcuts th, #keyboardShortcuts td {
+	padding: 2px;
+	border: none;
+}

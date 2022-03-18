@@ -14,7 +14,7 @@ var total_lines = 0;
 var attackHTML = "";
 document.getElementById("AttackList").innerHTML = attackHTML;
 
-var attack_dict = {
+const ATTACK_DICT = { // base settings for each attack type
 
 	// "attackid": ["Name", Base Attack, B2B-able Flag]
 	
@@ -32,7 +32,7 @@ var attack_dict = {
 };
 
 
-function attackFunc(combo_level, base_attack, B2B_level) {
+function attackFunc(combo_level, base_attack, B2B_level) { // returns the number of lines sent
 
 	if (B2B_level + base_attack == 0) {
 
@@ -47,7 +47,7 @@ function attackFunc(combo_level, base_attack, B2B_level) {
 }
 
 
-function b2bCountToLevel(B2B_count) {
+function b2bCountToLevel(B2B_count) { // converts b2b count to level
 
 	if (B2B_count <= 0) {
 		return 0;
@@ -91,7 +91,7 @@ function updateTable(){
 
 		attackHTML += (`<tr id=${attack["id"]}>`+
 		"<td>" +                 attack["num"] +        // #
-		"</td> <td>" +           attack_dict[attack["attack_id"]][0] + // Attack type
+		"</td> <td>" +           ATTACK_DICT[attack["attack_id"]][0] + // Attack type
 		"</td> <td> <b>" +      (attack["lines_sent"] + Number(attack["PC"])*10) + // Lines Sent
 		"</b> </td> <td>" +      attack["combo"] +      // Combo
 		"</td> <td>" +           attack["B2B_count"] +  // B2B Count
@@ -105,7 +105,7 @@ function updateTable(){
 		} else {
 
 			attackHTML += ("<td>" +
-			`<input type="checkbox" id="PC${attack["num"]}" name="PC${attack["num"]}" onclick="PerfectClear(${attack["num"]})"`);            
+			`<input type="checkbox" id="PC${attack["num"]}" name="PC${attack["num"]}" onclick="perfectClear(${attack["num"]})"`);            
 
 			if (attack["PC"]) {
 				attackHTML += "checked>";
@@ -135,7 +135,7 @@ function updateTable(){
 }
 
 
-function PerfectClear(pc_num) {
+function perfectClear(pc_num) {
 
 	console.log(document.getElementById(`PC${pc_num}`).checked);
 
@@ -154,7 +154,7 @@ function PerfectClear(pc_num) {
 }
 
 
-document.getElementById("button_add").onclick = function() {
+function buttonAdd() {
 	
 	attack_selected = document.getElementById("attack_selected").value;
 
@@ -170,11 +170,11 @@ document.getElementById("button_add").onclick = function() {
 
 	}
 
-	if (attack_dict[attack_selected][2] && B2Bing) { // if attack is B2B-able and B2B is turned on
+	if (ATTACK_DICT[attack_selected][2] && B2Bing) { // if attack is B2B-able and B2B is turned on
 
 		B2B_count++;
 
-	} else if (attack_dict[attack_selected][2]) { // if attack is B2B-able and B2B is turned off
+	} else if (ATTACK_DICT[attack_selected][2]) { // if attack is B2B-able and B2B is turned off
 
 		B2B_count = 0;
 
@@ -192,7 +192,7 @@ document.getElementById("button_add").onclick = function() {
 		"attack_id": attack_selected,
 		"combo": combo_level,
 		"B2B_count": B2B_count,
-		"lines_sent": attackFunc(combo_level, attack_dict[attack_selected][1], b2bCountToLevel(B2B_count)),
+		"lines_sent": attackFunc(combo_level, ATTACK_DICT[attack_selected][1], b2bCountToLevel(B2B_count)),
 		"PC": false
 	
 	});
@@ -205,7 +205,7 @@ document.getElementById("button_add").onclick = function() {
 }
 
 
-document.getElementById("toggle_combo").onclick = function() {
+function toggleCombo() {
 
 	if (comboing) {
 
@@ -225,7 +225,7 @@ document.getElementById("toggle_combo").onclick = function() {
 }
 
 
-document.getElementById("toggle_B2B").onclick = function() {
+function toggleB2B() {
 
 	if (B2Bing) {
 
@@ -245,7 +245,7 @@ document.getElementById("toggle_B2B").onclick = function() {
 }
 
 
-document.getElementById("button_clear").onclick = function() {
+function buttonClear() {
 
 	attack_list = [];
 
@@ -259,22 +259,81 @@ document.getElementById("button_clear").onclick = function() {
 
 }
 
+function buttonShortcuts() {
 
-document.getElementById("button_image").onclick = function() {
+	const keyboardShortcuts = document.getElementById("keyboardShortcuts");
 
-	const chart = document.getElementById("chart");
+	if (keyboardShortcuts.style.display === "none") {
 
-	if (chart.style.display === "none") {
-
-	  chart.style.display = "block";
+		keyboardShortcuts.style.display = "table";
 
 	} else {
 
-	  chart.style.display = "none";
+		keyboardShortcuts.style.display = "none";
 
 	}
 	 
 }
+
+document.addEventListener('keydown', function(event) {
+
+	// Keyboard shortcuts
+
+	if(event.defaultPrevented) {
+		return;
+	}
+
+	switch (event.key) {
+
+		case "K": case "k":
+			buttonShortcuts();
+			return;	
+		case "9":
+			toggleCombo();
+			return;
+		case "0":
+			toggleB2B();
+			return;
+		case "P": case "p":
+			const ATTACKNUM = Object.keys(attack_list).length;
+			if (document.getElementById(`PC${ATTACKNUM}`).checked) {
+				attack_list[ATTACKNUM - 1]["PC"] = false;
+			} else {
+				attack_list[ATTACKNUM- 1]["PC"] = true;
+			}
+			updateTable();
+			return;
+		case "Backspace":
+			buttonClear();
+			return;
+		case "Enter":
+			buttonAdd();
+			return;
+		default:
+			return;
+	}
+
+});
+
+
+
+
+
+// document.getElementById("button_image").onclick = function() {
+
+// 	const chart = document.getElementById("chart");
+
+// 	if (chart.style.display === "none") {
+
+// 	  chart.style.display = "block";
+
+// 	} else {
+
+// 	  chart.style.display = "none";
+
+// 	}
+	 
+// }
 
 // document.getElementById("button_export").onclick = function() {
 
