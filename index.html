@@ -1,140 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-	
-	<link rel="icon" href="https://branding.osk.sh/tetrio-color.png">
+    <link rel="icon" href="https://branding.osk.sh/tetrio-color.png" />
 
-	<head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="TETR.IO Attack Calculator" />
+        <meta
+            name="google-site-verification"
+            content="UMune5TMczqatVn0wQ1jAAVVe2LIdoo4I1s1FyoxZdI"
+        />
 
-		<meta charset="UTF-8">
-		<meta name="description" content="TETR.IO Attack Calculator">
-		<meta name="google-site-verification" content="UMune5TMczqatVn0wQ1jAAVVe2LIdoo4I1s1FyoxZdI" />
+        <title>TETR.IO Attack Calculator</title>
 
-		<title>TETR.IO Attack Calculator</title>
+        <link rel="stylesheet" href="style.css" />
 
-		<link rel="stylesheet" href="style.css">
-
-		<!-- <script type="text/javascript">
+        <!-- <script type="text/javascript">
 			var selected;
 		</script> -->
-	
-	</head>
+    </head>
 
-	<body>
+    <body>
+        <h1>TETR.IO Attack Calculator</h1>
 
-		<h1>TETR.IO Attack Calculator</h1>
+        <p>
+            A fan made calculator for the TETR.IO garbage system by
+            <a href="https://ch.tetr.io/u/gener1c" target="_blank">Generic</a>
+        </p>
 
-		<p>A fan made calculator for the TETR.IO garbage system by <a href="https://ch.tetr.io/u/gener1c" target="_blank">Generic</a></p>
+        <h4>
+            <a
+                href="https://github.com/g3ner1c/tetrio-attack-calculator"
+                target="_blank"
+                >GitHub</a
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a
+                href="https://github.com/g3ner1c/tetrio-attack-calculator#readme"
+                target="_blank"
+                >README</a
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a
+                href="https://github.com/g3ner1c/tetrio-attack-calculator/issues/new/choose"
+                target="_blank"
+                >Suggestion/Bug?</a
+            >
+        </h4>
 
-		<h4>
+        <button type="button" id="buttonShortcuts" onclick="buttonShortcuts()">
+            Keyboard Shortcuts
+        </button>
 
-			<a href="https://github.com/g3ner1c/tetrio-attack-calculator" target="_blank">GitHub</a>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="https://github.com/g3ner1c/tetrio-attack-calculator#readme" target="_blank">README</a>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="https://github.com/g3ner1c/tetrio-attack-calculator/issues/new/choose" target="_blank">Suggestion/Bug?</a>
+        <table id="keyboardShortcuts">
+            <tbody>
+                <tr>
+                    <td>K</td>
+                    <td>Show Shortcuts</td>
+                </tr>
 
-		</h4>
+                <tr>
+                    <td>9</td>
+                    <td>Toggle Combo</td>
+                </tr>
 
-		<button type="button" id="buttonShortcuts" onclick="buttonShortcuts()">Keyboard Shortcuts</button>
+                <tr>
+                    <td>0</td>
+                    <td>Toggle B2B</td>
+                </tr>
 
-		<table id="keyboardShortcuts">
+                <tr>
+                    <td>P</td>
+                    <td>Toggle PC</td>
+                </tr>
 
-			<tbody>
+                <tr>
+                    <td>←</td>
+                    <td>Clear</td>
+                </tr>
 
-				<tr>
-					<td>K</td>
-					<td>Show Shortcuts</td>
-				</tr>
+                <tr>
+                    <td>⏎</td>
+                    <td>Enter</td>
+                </tr>
+            </tbody>
+        </table>
 
-				<tr>
-					<td>9</td>
-					<td>Toggle Combo</td>
-				</tr>
+        <br />
 
-				<tr>
-					<td>0</td>
-					<td>Toggle B2B</td>
-				</tr>
+        <label for="attack_selected">Attack Type:</label>
 
-				<tr>
-					<td>P</td>
-					<td>Toggle PC</td>
-				</tr>
+        <select name="attack_selected" id="attack_selected">
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="triple">Triple</option>
+            <option value="quad">Quad</option>
+            <option value="tsms">T-Spin Mini Single</option>
+            <option value="tss">T-Spin Single</option>
+            <option value="tsmd">T-Spin Mini Double</option>
+            <option value="tsd">T-Spin Double</option>
+            <option value="tst">T-Spin Triple</option>
+        </select>
 
-				<tr>
-					<td>←</td>
-					<td>Clear</td>
-				</tr>
+        <button type="button" id="button_add" onclick="buttonAdd()">+</button>
 
-				<tr>
-					<td>⏎</td>
-					<td>Enter</td>
-				</tr>
+        <button
+            type="button"
+            id="toggle_combo"
+            onclick="toggleCombo()"
+        ></button>
 
-			</tbody>
+        <button type="button" id="toggle_B2B" onclick="toggleB2B()"></button>
 
-		</table>
+        <button type="button" id="button_clear" onclick="buttonClear()">
+            Clear
+        </button>
 
-		<br>
+        <!-- <button type="button" id="button_import">Import List</button> -->
 
-		<label for="attack_selected">Attack Type:</label>
+        <br />
 
-		<select name="attack_selected" id="attack_selected">
+        <table id="Attack">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Attack Type</th>
+                    <th>Lines Sent</th>
+                    <th>Combo</th>
+                    <th>B2B Count</th>
+                    <th>B2B Level</th>
+                    <th>PC?</th>
+                </tr>
+            </thead>
 
-			<option value="single">Single</option>
-			<option value="double">Double</option>
-			<option value="triple">Triple</option>
-			<option value="quad">Quad</option>
-			<option value="tsms">T-Spin Mini Single</option>
-			<option value="tss">T-Spin Single</option>
-			<option value="tsmd">T-Spin Mini Double</option>
-			<option value="tsd">T-Spin Double</option>
-			<option value="tst">T-Spin Triple</option>
+            <tbody id="AttackList"></tbody>
 
-		</select>
+            <tfoot id="AttackFoot"></tfoot>
+        </table>
 
-		<button type="button" id="button_add" onclick="buttonAdd()">+</button>
-
-		<button type="button" id="toggle_combo" onclick="toggleCombo()"></button>
-
-		<button type="button" id="toggle_B2B" onclick="toggleB2B()"></button>
-
-		<button type="button" id="button_clear" onclick="buttonClear()">Clear</button>
-
-		<!-- <button type="button" id="button_import">Import List</button> -->
-
-		<br>
-
-		<table id="Attack">
-
-			<thead>
-
-				<tr>
-
-					<th>#</th>
-					<th>Attack Type</th>
-					<th>Lines Sent</th>
-					<th>Combo</th>
-					<th>B2B Count</th>
-					<th>B2B Level</th>
-					<th>PC?</th>
-
-				</tr>
-
-			</thead>
-
-			<tbody id="AttackList">
-
-			</tbody>
-
-			<tfoot id="AttackFoot">
-
-			</tfoot>
-
-
-		</table>
-
-		<!-- <br>
+        <!-- <br>
 
 		<button type="button" id="button_export">Export list</button>
 
@@ -146,8 +149,6 @@
 
 		<img src="table.png" alt="Attack table" width="50%" height="50%" id="chart" style="display: none;"> -->
 
-		<script src="script.js"></script>
-
-	</body>
-
+        <script src="script.js"></script>
+    </body>
 </html>
